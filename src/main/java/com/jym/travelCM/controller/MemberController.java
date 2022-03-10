@@ -1,7 +1,7 @@
 package com.jym.travelCM.controller;
 
-import com.jym.travelCM.dto.MemberLoginForm;
-import com.jym.travelCM.dto.MemberSaveForm;
+import com.jym.travelCM.dto.member.MemberLoginForm;
+import com.jym.travelCM.dto.member.MemberSaveForm;
 import com.jym.travelCM.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

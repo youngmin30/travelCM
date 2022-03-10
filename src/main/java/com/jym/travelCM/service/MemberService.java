@@ -3,7 +3,7 @@ package com.jym.travelCM.service;
 import com.jym.travelCM.Config.Role;
 import com.jym.travelCM.dao.MemberRepository;
 import com.jym.travelCM.domain.Member;
-import com.jym.travelCM.dto.MemberSaveForm;
+import com.jym.travelCM.dto.member.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -68,4 +70,16 @@ public class MemberService implements UserDetailsService {
 
         memberRepository.save(member);
     }
+
+    public Member findByLoginId(String loginId) throws IllegalStateException {
+
+        Optional<Member> memberOptional = memberRepository.findByLoginId(loginId);
+
+        memberOptional.orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 회원입니다")
+        );
+
+        return memberOptional.get();
+    }
+
 }

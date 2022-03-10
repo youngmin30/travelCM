@@ -1,4 +1,4 @@
-package com.jym.travelCM.dto;
+package com.jym.travelCM.dto.member;
 
 import lombok.Data;
 

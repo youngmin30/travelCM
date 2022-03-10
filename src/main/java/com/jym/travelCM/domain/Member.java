@@ -28,6 +28,9 @@ public class Member implements UserDetails {
     private String nickname;
     private String email;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Article> articles = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private Role authority;
 
@@ -90,4 +93,5 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return isEnabled;
     }
+
 }
