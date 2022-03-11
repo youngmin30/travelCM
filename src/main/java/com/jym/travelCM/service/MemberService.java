@@ -3,6 +3,7 @@ package com.jym.travelCM.service;
 import com.jym.travelCM.Config.Role;
 import com.jym.travelCM.dao.MemberRepository;
 import com.jym.travelCM.domain.Member;
+import com.jym.travelCM.dto.member.MemberModifyForm;
 import com.jym.travelCM.dto.member.MemberSaveForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,23 @@ public class MemberService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByLoginId(username).get();
+    }
+
+    @Transactional
+    public Long modifyMember(MemberModifyForm memberModifyForm, String loginId) {
+
+        Member findMember = findByLoginId(loginId);
+
+        BCryptPasswordEncoder bCryptPasswordEncoder =  new BCryptPasswordEncoder();
+
+        findMember.modifyMember(
+                bCryptPasswordEncoder.encode(memberModifyForm.getLoginPw()),
+                memberModifyForm.getNickname(),
+                memberModifyForm.getEmail()
+        );
+
+        return findMember.getId();
+
     }
 
     /**
