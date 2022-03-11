@@ -2,6 +2,7 @@ package com.jym.travelCM.service;
 
 import com.jym.travelCM.dao.ArticleRepository;
 import com.jym.travelCM.domain.Article;
+import com.jym.travelCM.domain.Board;
 import com.jym.travelCM.domain.Member;
 import com.jym.travelCM.dto.article.ArticleDTO;
 import com.jym.travelCM.dto.article.ArticleModifyForm;
@@ -19,13 +20,16 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ArticleService {
+
     private final ArticleRepository articleRepository;
+
     @Transactional
-    public void save(ArticleSaveForm articleSaveForm, Member member) {
+    public void save(ArticleSaveForm articleSaveForm, Member member, Board board) {
         Article article = Article.createArticle(
                 articleSaveForm.getTitle(),
                 articleSaveForm.getBody()
         );
+
         article.setMember(member);
         articleRepository.save(article);
     }

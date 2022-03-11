@@ -1,11 +1,13 @@
 package com.jym.travelCM.controller;
 
 import com.jym.travelCM.domain.Article;
+import com.jym.travelCM.domain.Board;
 import com.jym.travelCM.domain.Member;
 import com.jym.travelCM.dto.article.ArticleDTO;
 import com.jym.travelCM.dto.article.ArticleModifyForm;
 import com.jym.travelCM.dto.article.ArticleSaveForm;
 import com.jym.travelCM.service.ArticleService;
+import com.jym.travelCM.service.BoardService;
 import com.jym.travelCM.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,8 +24,11 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class ArticleController {
+
     private final ArticleService articleService;
     private final MemberService memberService;
+    private final BoardService boardService;
+
     @GetMapping("/articles/write")
     public String showArticleWrite(Model model) {
         model.addAttribute("articleSaveForm", new ArticleSaveForm());
@@ -34,12 +39,16 @@ public class ArticleController {
         if (bindingResult.hasErrors()) {
             return "usr/article/write";
         }
+
         try {
+            Board findBoard = boardService.getBoard(articleSaveForm.getBoard_id());
             Member findMember = memberService.findByLoginId(principal.getName());
             articleService.save(
                     articleSaveForm,
-                    findMember
+                    findMember,
+                    findBoard
             );
+
         } catch (IllegalStateException e) {
             model.addAttribute("err_msg", e.getMessage());
             return "usr/article/write";
