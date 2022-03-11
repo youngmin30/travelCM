@@ -12,4 +12,4 @@ public class MemberModifyForm {
     private String email;
 
 }
-}
+
