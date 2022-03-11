@@ -24,61 +24,58 @@ public class BoardController {
 
     @GetMapping("/boards/add")
     public String showAddBoard(Model model) {
-
         model.addAttribute("boardSaveForm", new BoardSaveForm());
-
         return "adm/board/add";
-
     }
 
     @PostMapping("/boards/add")
     public String doAddBoard(BoardSaveForm boardSaveForm) {
-
         boardService.save(boardSaveForm);
-
         return "redirect:/adm/boards";
     }
 
     // 게시판 리스트
     @GetMapping("/boards")
     public String showBoardList(Model model) {
-
         List<Board> boardList = boardService.findAll();
-
-         model.addAttribute("boardList", boardList);
-
+        model.addAttribute("boardList", boardList);
         return "adm/board/list";
-
     }
 
     @GetMapping("/boards/{id}")
     public String showBoardDetail(@PathVariable(name = "id") Long id, Model model) {
-
         try {
-
             BoardDTO boardDetail = boardService.getBoardDetail(id);
             model.addAttribute("board", boardDetail);
-
         } catch (Exception e) {
             return "redirect:/";
         }
-
         return "adm/board/detail";
 
     }
-    @GetMapping("/boards/modify")
-    public String showModifyBoard(Model model) {
 
-        model.addAttribute("boardModifyForm", new BoardModifyForm());
+    @GetMapping("/boards/modify/{id}")
+    public String showModifyBoard(@PathVariable(name = "id")Long id, Model model) {
+        try {
 
-        return "adm/board/modify";
+            BoardDTO board = boardService.getBoardDetail(id);
+
+            model.addAttribute("boardModifyForm", new BoardModifyForm(
+                    board.getName(),
+                    board.getDetail()
+            ));
+
+            return "adm/board/modify";
+        }catch (Exception e){
+            return "redirect:/";
+        }
     }
 
-    @PostMapping("/boards/modify")
-    public String doModifyBoard(BoardModifyForm boardModifyForm) {
+    @PostMapping("/boards/modify/{id}")
+    public String doModifyBoard(@PathVariable(name = "id") Long id, BoardModifyForm boardModifyForm) {
 
         try {
-            boardService.modify(boardModifyForm);
+            boardService.modify(id, boardModifyForm);
         } catch (Exception e) {
             return "adm/board/modify";
         }
@@ -95,9 +92,5 @@ public class BoardController {
         } catch (Exception e) {
             return "adm/board/list";
         }
-
     }
-
-
-
 }

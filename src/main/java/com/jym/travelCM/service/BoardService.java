@@ -25,7 +25,6 @@ public class BoardService {
 
     @Transactional
     public void save(BoardSaveForm boardSaveForm){
-
         Board board = Board.createBoard(
                 boardSaveForm.getName(),
                 boardSaveForm.getDetail()
@@ -34,7 +33,6 @@ public class BoardService {
         boardRepository.save(board);
 
     }
-
     public List<Board> findAll(){
         return boardRepository.findAll();
     }
@@ -62,13 +60,12 @@ public class BoardService {
         }
 
         return new BoardDTO(findBoard, articleList);
-
     }
 
     @Transactional
-    public Long modify(BoardModifyForm boardModifyForm) throws NoSuchElementException{
+    public Long modify(Long id, BoardModifyForm boardModifyForm) throws NoSuchElementException{
 
-        Optional<Board> boardOptional = boardRepository.findByName(boardModifyForm.getName());
+        Optional<Board> boardOptional = boardRepository.findById(id);
 
         boardOptional.orElseThrow(
                 () -> new NoSuchElementException("해당 게시판은 존재하지 않습니다.")
@@ -82,14 +79,11 @@ public class BoardService {
         );
 
         return board.getId();
-
     }
 
     @Transactional
     public void delete(Long id) {
-
         Optional<Board> boardOptional = findById(id);
-
         boardOptional.orElseThrow(
                 () -> new NoSuchElementException("해당 게시판은 존재하지 않습니다.")
         );
@@ -97,5 +91,4 @@ public class BoardService {
         Board findBoard = boardOptional.get();
         boardRepository.delete(findBoard);
     }
-
 }
