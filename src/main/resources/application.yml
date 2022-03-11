@@ -18,7 +18,7 @@ devtools:
 # DB ??
 datasource:
   driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/cleanCM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60
+  url: jdbc:mysql://localhost:3306/travelCM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60
   username: jeon
   password: youngmin
 

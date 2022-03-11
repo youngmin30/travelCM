@@ -8,16 +8,25 @@
 </head>
 <body>
 <div layout:fragment="content">
-
     <div class="container">
 
         <div class="content">
+
+            <div class="">
+                <span>게시판 이름 :</span>
+                <span th:text="${board.name}"></span>
+            </div>
+
+            <div class="">
+                <a th:href="@{~/boards/} + ${board.id} + @{/articles/write}">
+                    <span>게시물 작성</span>
+                </a>
+            </div>
 
             <table>
 
                 <thead>
                 <tr>
-                    <th>게시판 이름</th>
                     <th>게시글 번호</th>
                     <th>게시글 제목</th>
                     <th>게시글 작성자</th>
@@ -46,7 +55,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
 </body>

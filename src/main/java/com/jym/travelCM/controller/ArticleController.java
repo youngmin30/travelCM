@@ -6,6 +6,7 @@ import com.jym.travelCM.domain.Member;
 import com.jym.travelCM.dto.article.ArticleDTO;
 import com.jym.travelCM.dto.article.ArticleModifyForm;
 import com.jym.travelCM.dto.article.ArticleSaveForm;
+import com.jym.travelCM.dto.board.BoardDTO;
 import com.jym.travelCM.service.ArticleService;
 import com.jym.travelCM.service.BoardService;
 import com.jym.travelCM.service.MemberService;
@@ -29,13 +30,18 @@ public class ArticleController {
     private final MemberService memberService;
     private final BoardService boardService;
 
-    @GetMapping("/articles/write")
-    public String showArticleWrite(Model model) {
+    @GetMapping("/boards/{id}/articles/write")
+    public String showArticleWrite(@PathVariable(name = "id")Long id, Model model) {
+
+        BoardDTO boardDetail = boardService.getBoardDetail(id);
+
+        model.addAttribute("board", boardDetail);
         model.addAttribute("articleSaveForm", new ArticleSaveForm());
         return "usr/article/write";
     }
-    @PostMapping("/articles/write")
-    public String doWrite(@Validated ArticleSaveForm articleSaveForm, BindingResult bindingResult, Model model, Principal principal) {
+    @PostMapping("/boards/{id}/articles/write")
+    public String doWrite(@Validated ArticleSaveForm articleSaveForm, BindingResult bindingResult, Model model, Principal principal, @PathVariable(name = "id")Long id) {
+
         if (bindingResult.hasErrors()) {
             return "usr/article/write";
         }
@@ -53,7 +59,7 @@ public class ArticleController {
             model.addAttribute("err_msg", e.getMessage());
             return "usr/article/write";
         }
-        return "redirect:/";
+        return "redirect:/articles";
     }
     @GetMapping("/articles/modify/{id}")
     public String showModify(@PathVariable(name = "id") Long id, Model model){
@@ -78,7 +84,7 @@ public class ArticleController {
         }
     }
 
-    @GetMapping("/articles/")
+    @GetMapping("/articles")
     public String showList(Model model) {
 
         List<ArticleDTO> articleList = articleService.getList();

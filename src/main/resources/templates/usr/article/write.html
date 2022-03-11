@@ -8,37 +8,37 @@
 </head>
 <body>
 <div layout:fragment="content">
-
     <div class="container">
 
         <div class="contents">
 
-            <form action="" th:action="@{~/articles/write}" method="POST">
+                <div class="">
+                    <span>게시판 이름 :</span>
+                    <span th:text="${board.name}"></span>
+                </div>
 
-                <div class="form-item">
+                <form action="" th:action="@{~/boards/} + ${board.id} + @{/articles/write}" method="POST">
+                    <input type="hidden" th:value="${board.id}" name="board_id">
+
+                    <div class="form-item">
           <span>
             제목
           </span>
-                    <input name="title" type="text" required>
-                </div>
-
-                <div class="form-item">
-                    <span>내용</span>
-                    <textarea name="body" id="article-body" cols="30" rows="10"></textarea>
-                </div>
-
-                <div class="form-item">
-                    <button>작성</button>
-                    <a href="/">
-                        <button>취소</button>
-                    </a>
-                </div>
-
-            </form>
-
+                        <input name="title" type="text" required>
+                    </div>
+                    <div class="form-item">
+                        <span>내용</span>
+                        <textarea name="body" id="article-body" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="form-item">
+                        <button>작성</button>
+                        <a href="/">
+                            <button>취소</button>
+                        </a>
+                    </div>
+                </form>
         </div>
-
     </div>
 </div>
 </body>
-</html>
+</html></html>
